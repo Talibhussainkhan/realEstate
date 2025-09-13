@@ -4,3 +4,11 @@
 *{
     font-family: "Outfit", sans-serif;
 }
+
+body{
+    background-color: rgb(241, 245, 241);
+}
+
+.input{
+    @apply border p-3 rounded-lg outline-none border-gray-300 bg-white
+}
