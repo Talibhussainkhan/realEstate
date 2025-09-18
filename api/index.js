@@ -1,8 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import cookieParser from 'cookie-parser';
 import { test } from './controller/userController.js';
 import authRouter from './routes/authRouter.js';
+import userRouter from './routes/userRoute.js';
 
 
 
@@ -16,9 +18,11 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cookieParser());
 
-app.get('/', test)
+app.get('/', test);
 app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 400;
