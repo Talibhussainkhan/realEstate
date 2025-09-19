@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { test } from './controller/userController.js';
 import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRoute.js';
+import listingRouter from './routes/listRouter.js';
 
 
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.get('/', test);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/listing', listingRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 400;
