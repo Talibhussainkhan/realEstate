@@ -1,6 +1,30 @@
 import { useState } from "react";
 
 const CreateListing = () => {
+  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    imageUrls : [],
+  })
+   
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    if(selectedFiles.length > 6){
+      setError('you upload maximum 6 image')
+    }else{
+      setFormData({ ...formData, imageUrls : selectedFiles });
+      setError(null)
+    }
+  };
+
+  const handleDeleteImage = (index) =>{
+   setFormData({
+    ...formData,
+    imageUrls : formData.imageUrls.filter((_,i)=> i !== index )
+   })     
+  }
+
+
+
   
   return (
     <main className="p-3 max-w-4xl mx-auto">
@@ -66,11 +90,24 @@ const CreateListing = () => {
             <span className="font-medium text-gray-600 ml-2">The first image will be the cover (max 6)</span>
           </p>
           <div className="flex gap-4">
-            <input className="p-3 border border-gray-300 w-full" type="file" id="images" accept="image/*" multiple />
-            <button className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80">Upload</button>
+            <input onChange={handleFileChange} className="p-3 border border-gray-300 w-full" type="file" id="images" accept="image/*" multiple />
           </div>
-          <button className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80">Create Listing</button>
+        {  error && <p className="text-red-500">{error}</p> }
+        { formData.imageUrls.length > 0 && formData.imageUrls.map((file, index) => (
+          <div key={index} className="flex justify-between items-center p-3 border border-gray-300">
+            <img
+              src={URL.createObjectURL(file)}  
+              alt="preview"
+              className="w-20 h-20 object-contain rounded-lg"
+            />
+            <button type="button" onClick={()=>handleDeleteImage(index)} className="p-3 text-red-700 rounded-lg uppercase hover:opacity-90">Delete</button>
+          </div>
+        ))}
+
+
+          <button type="button" className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80">Create Listing</button>
         </div>
+        
         
         
 
