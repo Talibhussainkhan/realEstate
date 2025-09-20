@@ -11,6 +11,7 @@ import {
   updateUserStart,
   updateUserSuccess,
 } from "../store/userSlice/userSlice";
+import { Link } from "react-router-dom";
 
 export const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -46,37 +47,37 @@ export const Profile = () => {
     }
   };
 
-  const handleDelete = async ()=>{
+  const handleDelete = async () => {
     try {
       dispatch(deleteUserStart());
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method : 'DELETE'
+        method: "DELETE",
       });
       const data = await res.json();
-      if( data.success === false ){
+      if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
         return;
       }
-      dispatch(deleteUserSuccess())
+      dispatch(deleteUserSuccess());
     } catch (error) {
-      dispatch(deleteUserFailure(error.message))
+      dispatch(deleteUserFailure(error.message));
     }
-  }
+  };
 
   const handleSignOut = async () => {
     try {
       dispatch(signOutStart);
-      const res = await fetch('/api/auth/signout');
+      const res = await fetch("/api/auth/signout");
       const data = await res.json();
-      if(data.success === false){
-        dispatch(signOutFailure(data.message))
-        return
+      if (data.success === false) {
+        dispatch(signOutFailure(data.message));
+        return;
       }
-      dispatch(signOutSuccess())
+      dispatch(signOutSuccess());
     } catch (error) {
-      dispatch(signOutFailure(error.message))
+      dispatch(signOutFailure(error.message));
     }
-  }
+  };
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -118,10 +119,20 @@ export const Profile = () => {
         >
           {loading ? "Loading..." : "Update"}
         </button>
+        <Link
+          className="bg-green-700 text-center text-white rounded-lg p-3 uppercase cursor-pointer hover:opacity-95"
+          to="/create-listing"
+        >
+          Create Listing
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
-        <span onClick={handleDelete} className="text-red-700 cursor-pointer">Delete Account</span>
-        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">Sign Out</span>
+        <span onClick={handleDelete} className="text-red-700 cursor-pointer">
+          Delete Account
+        </span>
+        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
+          Sign Out
+        </span>
       </div>
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
       <p className="text-green-700 mt-5">
