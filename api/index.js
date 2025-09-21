@@ -8,7 +8,6 @@ import userRouter from './routes/userRoute.js';
 import listingRouter from './routes/listRouter.js';
 
 
-
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('Database Connected')
 }).catch((err) => {
@@ -18,8 +17,9 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 const app = express();
 const port = 3000;
 
-app.use(express.json());
+app.use(express.json({ limit : '50mb' }));
 app.use(cookieParser());
+
 
 app.get('/', test);
 app.use('/api/auth', authRouter);

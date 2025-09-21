@@ -1,10 +1,11 @@
 import express from "express";
 import { verifyToken } from "../utils/verifyUser.js";
 import { createListing } from "../controller/listController.js";
+import { upload } from "../utils/multer.js";
 
 const listingRouter = express.Router();
-
-listingRouter.post('/create', verifyToken, createListing);
+// 6 limit set if you want to set so remove
+listingRouter.post('/create',verifyToken, upload.array('images', 6) , createListing);
 
 
 

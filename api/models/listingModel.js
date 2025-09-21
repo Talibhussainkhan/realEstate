@@ -10,7 +10,7 @@ const ListingScehma = new mongoose.Schema({
     bedrooms : { type : Number, required : true },
     furnished : { type : Boolean, required : true },
     parking : { type : Boolean, required : true },
-    type : { type : Boolean, required : true },
+    type : { type : String, required : true },
     offer : { type : Boolean, required : true },
     imageUrls : {
         type : Array,
