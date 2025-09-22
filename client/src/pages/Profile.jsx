@@ -189,8 +189,9 @@ export const Profile = () => {
           </Link>
           <div className="flex flex-col items-center">
             <button onClick={()=>handleDeleteListing(listing._id)} className="text-red-700 uppercase cursor-pointer">Delete</button>
+            <Link to={`/update-listing/${listing._id}`}>
             <button className="text-green-700 uppercase cursor-pointer">Edit</button>
-            <button></button>
+            </Link>
           </div>
         </div>
       ))} 
