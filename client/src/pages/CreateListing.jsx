@@ -71,10 +71,14 @@ const CreateListing = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (formData.imageUrls.length > 1)
-      return setError("You must upload at least one image");
-    if (+formData.regularPrice <= +formData.discountPrice)
-      return setError("Discount Price must be lower than regular price");
+    if (formData.imageUrls.length < 1){
+     setError("You must upload at least one image");
+      return 
+    }
+    if (+formData.regularPrice <= +formData.discountPrice){
+      setError("Discount Price must be lower than regular price");
+      return
+    }
     const sendData = new FormData();
     Object.keys(formData).map((key) => {
       sendData.append(key, formData[key]);
@@ -94,6 +98,7 @@ const CreateListing = () => {
       setLoading(false);
       if (data.success === false) {
         setError(data.message);
+        return
       }
       navigate(`/listing/${data._id}`)
     } catch (error) {
@@ -101,6 +106,7 @@ const CreateListing = () => {
       setLoading(false);
     }
   };
+  console.log(formData.imageUrls)
 
   return (
     <main className="p-3 max-w-4xl mx-auto">

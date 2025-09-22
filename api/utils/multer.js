@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
     cloudinary : cloudinary,
     params:{
         folder : "listings",
-        allowed_formats: ["jpg", "jpeg", "png", "webp"],
+        allowed_formats: ["jpg", "jpeg", "png", "webp", 'avif'],
         transformation: [
       {
         width: 1280,   // max width 1280px
