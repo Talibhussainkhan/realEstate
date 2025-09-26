@@ -9,7 +9,7 @@ listingRouter.post('/create',verifyToken, upload.array('images', 6) , createList
 listingRouter.delete('/delete/:id', verifyToken, deleteListing);
 listingRouter.post('/update/:id', verifyToken, updateListing);
 listingRouter.get('/get/:id', getListing);
-listingRouter.get('/', getListings)
+listingRouter.get('/get', getListings)
 
 
 export default listingRouter;

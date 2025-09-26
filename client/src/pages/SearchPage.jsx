@@ -13,6 +13,9 @@ const SearchPage = () => {
     order: "desc",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [listings, setListings] = useState([]);
+
   const handleChange = (e) => {
 
     if(e.target.id === 'all' || e.target.id === 'rent' || e.target.id === 'sale' ){
@@ -63,7 +66,20 @@ const SearchPage = () => {
         sort: sortFromUrl || 'created_at',
         order: orderFromUrl || 'desc',
       });
-    }},[location.search])
+    }
+     
+    const fetchListings = async () =>{
+      setLoading(true);
+      const searchQuery = urlParams.toString();
+      const res = await fetch(`/api/listing/get?${searchQuery}`);
+      const data = await res.json();
+      setListings(data);
+      setLoading(false);
+    };
+
+    fetchListings();
+  
+  },[location.search])
 
 
   const handleSubmit = async (e) =>{
@@ -79,6 +95,8 @@ const SearchPage = () => {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`)
   }
+
+  
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -162,9 +180,9 @@ const SearchPage = () => {
               defaultValue={'created_at_desc'}
               id="sort_order"
               className="bg-white p-1 outline-none border border-gray-300 rounded-lg"
-            >
-              <option value="regulerPrice_desc">Price high to low</option>
-              <option value="regulerPrice_asc">Price low to high</option>
+            >regularPrice
+              <option value="regularPrice_desc">Price high to low</option>
+              <option value="regularPrice_asc">Price low to high</option>
               <option value="createdAt_desc">Latest</option>
               <option value="createdAt_asc">Oldest</option>
             </select>
