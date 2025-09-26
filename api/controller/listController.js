@@ -67,6 +67,12 @@ export const getListings = async (req, res ,next) => {
             offer = { $in : [ false, true ] }
         }
 
+        let parking = req.query.parking;
+
+    if (parking === undefined || parking === 'false') {
+      parking = { $in: [false, true] };
+    }
+
         let furnished = req.query.furnished;
         if(furnished === undefined || furnished === 'false'){
             furnished = { $in : [ false, true ] }
@@ -85,7 +91,7 @@ export const getListings = async (req, res ,next) => {
         // frontend main include karte hai wase mongo db main regex used kar search kisi main include name 
         // ho ga wo mily gha $option : i lowwer or uppercase usko faraq ni pary gha
         const listings = await Listing.find({
-            name : { $regex : searchTerm, $option : 'i' },
+            name : { $regex : searchTerm, $options : 'i' },
             offer,
             furnished,
             parking,
