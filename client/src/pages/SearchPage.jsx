@@ -16,6 +16,7 @@ const SearchPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
+  const [showMore, setShowMore] = useState(false);
 
   const handleChange = (e) => {
 
@@ -71,9 +72,13 @@ const SearchPage = () => {
      
     const fetchListings = async () =>{
       setLoading(true);
+      setShowMore(false);
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
+      if(data.length > 8){
+        setShowMore(true)
+      }
       setListings(data);
       setLoading(false);
     };
@@ -82,6 +87,21 @@ const SearchPage = () => {
   
   },[location.search])
 
+  const onShowMoreClick = async () => {
+    const numberOfListings = listings.length;
+    const startIndex = numberOfListings;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set('startIndex', startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json(); 
+    if(data.length > 8){
+      setShowMore(true)
+    }else{
+      setShowMore(false)
+    }
+    setListings([...listings, ...data])
+  }
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
@@ -97,7 +117,6 @@ const SearchPage = () => {
     navigate(`/search?${searchQuery}`)
   }
 
-  
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -211,6 +230,14 @@ const SearchPage = () => {
             ))
           }
         </div>
+          { showMore && (
+            <button
+            onClick={onShowMoreClick}
+            className="text-green-700 hover:underline p-4 w-full text-center"
+            >
+              Show more
+            </button>
+          ) }
       </div>
     </div>
   );

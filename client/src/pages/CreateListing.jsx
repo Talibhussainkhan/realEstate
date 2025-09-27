@@ -106,7 +106,6 @@ const CreateListing = () => {
       setLoading(false);
     }
   };
-  console.log(formData.imageUrls)
 
   return (
     <main className="p-3 max-w-4xl mx-auto">
