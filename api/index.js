@@ -23,7 +23,7 @@ app.use(express.json({ limit : '50mb' }));
 app.use(cookieParser());
 
 
-app.get('/', test);
+// app.get('/', test);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/listing', listingRouter);
