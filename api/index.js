@@ -6,13 +6,15 @@ import { test } from './controller/userController.js';
 import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRoute.js';
 import listingRouter from './routes/listRouter.js';
-
+import path from 'path';
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('Database Connected')
 }).catch((err) => {
     console.log(err)
-})
+});
+
+const __dirname = path.resolve();
 
 const app = express();
 const port = 3000;
@@ -25,6 +27,13 @@ app.get('/', test);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/listing', listingRouter);
+
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 400;
